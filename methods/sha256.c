@@ -187,12 +187,13 @@ static int sha256_finish(struct context* ctx)
     struct sha256_context* context = ctx->context;
     int i;
     uint64_t len_bits;
+    unsigned original_length;
 
     assert(context->input_length < BLOCK_SIZE);
 
     // Append the required '1' bit
     context->input[context->input_length] = 0x80;
-    ++context->input_length;
+    original_length = context->input_length;
 
     // Pad message buffer and finalize the hash
     if (context->input_length >= (BLOCK_SIZE - sizeof(len_bits)))
@@ -202,13 +203,13 @@ static int sha256_finish(struct context* ctx)
         context->input_length = BLOCK_SIZE;
         if (sha256_update(context))
             return 1;
+        context->length -= BLOCK_SIZE; // padding bytes don't count
 
         // ... and add another to finish with.
     }
 
     // Pad this block and append the message length
-    context->length += context->input_length;
-    context->length -= 1; // Adjust for the static '0x80' byte, which doesn't count
+    context->length += original_length;
     len_bits = TO_BE64(context->length * 8);
     memcpy(&context->input[BLOCK_SIZE - sizeof(len_bits)], &len_bits, sizeof(len_bits));
     context->input_length = BLOCK_SIZE;
@@ -321,8 +322,8 @@ static int sha256_update(struct sha256_context* ctx)
 
     // Clean up and prepare for next block
     memset(ctx->input, 0, sizeof(ctx->input));
-    ctx->input_length = 0;
     ctx->length += ctx->input_length;
+    ctx->input_length = 0;
 
     return 0;
 }
