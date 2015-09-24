@@ -83,11 +83,17 @@ struct method_api
 
 // Core functions used by method implementations
 uint16_t TO_BE16    (uint16_t in);
+uint16_t TO_LE16    (uint16_t in);
 uint16_t FROM_BE16  (uint16_t in);
+uint16_t FROM_LE16  (uint16_t in);
 uint32_t TO_BE32    (uint32_t in);
+uint32_t TO_LE32    (uint32_t in);
 uint32_t FROM_BE32  (uint32_t in);
+uint32_t FROM_LE32  (uint32_t in);
 uint64_t TO_BE64    (uint64_t in);
+uint64_t TO_LE64    (uint64_t in);
 uint64_t FROM_BE64  (uint64_t in);
+uint64_t FROM_LE64  (uint64_t in);
 
 
 // Method-specific API structures

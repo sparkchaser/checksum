@@ -23,6 +23,8 @@
 
 #include <inttypes.h>
 
+/* -- 16-bit functions -- */
+
 // Change a native 16-bit value into big-endian format
 uint16_t TO_BE16(uint16_t in)
 {
@@ -35,6 +37,20 @@ uint16_t TO_BE16(uint16_t in)
 
     return out;
 }
+
+// Change a native 16-bit value into little-endian format
+uint16_t TO_LE16(uint16_t in)
+{
+    uint16_t out = 0;
+    unsigned char* pout = (unsigned char*)&out;
+    int i;
+
+    for (i = 0; i < sizeof(in); ++i, in >>= 8)
+        pout[i] = in & 0xff;
+
+    return out;
+}
+
 
 // Change a big-endian 16-bit value into native format
 uint16_t FROM_BE16(uint16_t in)
@@ -49,6 +65,22 @@ uint16_t FROM_BE16(uint16_t in)
     return out;
 }
 
+// Change a little-endian 16-bit value into native format
+uint16_t FROM_LE16(uint16_t in)
+{
+    unsigned char* pin = (unsigned char*)&in;
+    uint16_t out;
+    int i;
+
+    for (i = 0, out = 0; i < sizeof(in); ++i)
+        out += pin[i] << (8 * i);
+
+    return out;
+}
+
+
+/* -- 32-bit functions -- */
+
 // Change a native 32-bit value into big-endian format
 uint32_t TO_BE32(uint32_t in)
 {
@@ -57,6 +89,19 @@ uint32_t TO_BE32(uint32_t in)
     int i;
 
     for (i = sizeof(out) - 1; i >= 0; --i, in >>= 8)
+        pout[i] = in & 0xff;
+
+    return out;
+}
+
+// Change a native 32-bit value into little-endian format
+uint32_t TO_LE32(uint32_t in)
+{
+    uint32_t out = 0;
+    unsigned char* pout = (unsigned char*)&out;
+    int i;
+
+    for (i = 0; i < sizeof(out); ++i, in >>= 8)
         pout[i] = in & 0xff;
 
     return out;
@@ -75,6 +120,21 @@ uint32_t FROM_BE32(uint32_t in)
     return out;
 }
 
+// Change a little-endian 32-bit value into native format
+uint32_t FROM_LE32(uint32_t in)
+{
+    unsigned char* pin = (unsigned char*)&in;
+    uint32_t out;
+    int i;
+
+    for (i = 0, out = 0; i < sizeof(in); ++i)
+        out += pin[i] << (8 * i);
+
+    return out;
+}
+
+/* -- 64-bit functions -- */
+
 // Change a native 64-bit value into big-endian format
 uint64_t TO_BE64(uint64_t in)
 {
@@ -83,6 +143,19 @@ uint64_t TO_BE64(uint64_t in)
     int i;
 
     for (i = sizeof(out) - 1; i >= 0; --i, in >>= 8)
+        pout[i] = in & 0xff;
+
+    return out;
+}
+
+// Change a native 64-bit value into little-endian format
+uint64_t TO_LE64(uint64_t in)
+{
+    uint64_t out = 0;
+    unsigned char* pout = (unsigned char*)&out;
+    int i;
+
+    for (i = 0; i < sizeof(out); ++i, in >>= 8)
         pout[i] = in & 0xff;
 
     return out;
@@ -97,6 +170,19 @@ uint64_t FROM_BE64(uint64_t in)
 
     for (i = 0, out = 0; i < sizeof(in); ++i)
         out = (out << 8) + pin[i];
+
+    return out;
+}
+
+// Change a little-endian 64-bit value into native format
+uint64_t FROM_LE64(uint64_t in)
+{
+    unsigned char* pin = (unsigned char*)&in;
+    uint64_t out;
+    int i;
+
+    for (i = 0, out = 0; i < sizeof(in); ++i)
+        out += pin[i] << (8 * i);
 
     return out;
 }
