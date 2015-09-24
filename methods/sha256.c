@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <method.h>
+#include "method.h"
 
 // Algorithm parameters
 #define BLOCK_SIZE      (512 / 8) // size of input blocks (bytes)

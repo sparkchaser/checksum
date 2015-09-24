@@ -25,7 +25,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <method.h>
+#include "method.h"
 
 static void simple8_help    (void);
 static void simple16_help   (void);
